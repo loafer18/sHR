@@ -1,0 +1,64 @@
+header {
+	background-color:lightblue;
+	color:white;
+	text-align:center;
+	padding:5px;
+}
+
+body {
+	font-family:arial, 微软雅黑;
+}
+
+nav {
+	float:left;
+}
+
+section {
+	float:left;
+	padding:2px;
+	margin:10px;
+}
+
+.wrap {
+	width:900px;
+	margin:auto; 				
+}
+
+#rightDiv {
+	float:left;
+	border: 1px #CDCDCD solid;
+	margin-left:20px;
+	margin-top:20px;
+	width:525px;
+}
+
+footer{
+	background-color:lightblue;
+	clear:both;
+	color:white;
+	text-align:center;
+	padding:5px;
+
+}
+
+form {
+	line-height: 25px;
+}
+
+#HRPart {
+	background-color:lightgreen;
+	padding: 2px;
+}
+/* 绿色部分计划加宽，看起来更和谐 */
+
+#MgrPart {
+	background-color:lightblue;
+	padding: 2px;
+}
+
+#ITPart {
+	background-color:lightgrey;
+	padding: 2px;
+}
+
+

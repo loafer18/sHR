@@ -1,0 +1,167 @@
+<!Doctype HTML>
+<!-- Created by Ethan Liu Since 2017 May -->
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<html>
+
+	<head>
+		<title>A simplified HR system</title>
+		<!-- 临时使用本页面CSS，后续会单独剥离到一个单独的CSS文件内 -->
+		<link rel="stylesheet" type="text/css" href="pagecss.css">
+
+	</head>
+
+	<body>
+		<div class="wrap">
+			<!-- layout说明，左侧是快捷链接， 右侧为主要使用部分， 是员工profile.
+		初始计划是由用人单位主管填写大概需求（title, localtion, BU, cost center, on board date....)
+		这里由HR填写新进员工的基本资料，姓名，性别，电话，职务抬头，成本中心，工作地点，入职时间，部门，员工号，照片等等。  a complete form 可以带有一个附件栏位，可以附上员工的简历文件，照片和证书等资料。
+		员工profile用表格设计， 除了以上信息外， 还有未来员工将要使用的计算机账户，系统权限， 硬件配置等相关信息， 但在初始阶段，这些内容均为灰色不可编辑状态。
+		左侧的快捷链接的员工表，会提供一个简明的现有员工的清单，单击某一位员工，会进入这个单人页面。
+		for the record, 现有员工及后续新员工的数据，暂时计划以xml形式存在本地，并明文方式拷贝到服务器端。后续会进行正式数据库存储。SQLite or Access.
+
+		左侧链接： 员工清单；组织架构图；全员通知；门户网站或公司其他网站；
+		-->
+			<header>
+				<h2>Hagemeyer Industry Technology Human Resource System </h2></header>
+			<div>
+				<nav>
+					<ul>
+						<li>Employee List</li>
+						<li>O-Chart</li>
+						<li>SumRep</li>
+						<li>Employee Access</li>
+					</ul>
+				</nav>
+			</div>
+
+
+			<div id="rightDiv">
+				<section>
+					<!-- 表格设计为两类栏目，一类为必填项， 另一类为选填。必填项由右上角红色星号标注。同时格式填错或字符超长均会检查提醒。
+			上部为员工基本信息， 中英文姓名， 性别和电话。 IM选填，由HR负责onboard的人填。
+			(底色为淡绿色，由公司HR填写内容)
+
+			中部为用户在公司信息：抬头，部门，成本中心，汇报对象， 由HR填。
+            (底色为淡绿色，由公司HR填写内容)
+
+			下部为员工需要用到的一些东西：硬件，软件，账户，这些后续由用人部门主管审批的时候进行勾选，简化操作。
+			(底色为淡蓝色，由用人部门主管填写内容)
+
+			(其他地方底色为淡黄色，由IT/OE部门填写内容)
+
+			系统内，出现其他员工的地方，该员工则会由超链接附在姓名上面，点击会出现TA的页面信息。方便联系。（电话，邮件，照片，IM等）
+			-->
+					<form id="emplooyeeDetails" autocomplete="on">
+						<div id="HRPart">
+							中 文 名&nbsp : <input type="text" name="cnName" value="姓名" autofocus> &nbsp &nbsp 英 文 名&nbsp: &nbsp<input type="text" name="cnName" value="Name"> </br>
+							性 &nbsp &nbsp &nbsp &nbsp别: &nbsp <input type="radio" name="sex" value="male" checked>Male &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <input type="radio" name="sex" value="female">Female</br>
+							电 &nbsp &nbsp &nbsp &nbsp话: <input type="text" name="cnName" value="Cell Phone"> &nbsp &nbsp 社交帐号:&nbsp<input type="text" name="cnName" value="IM"> </br>
+							</br>
+							<!--上部 第一段 员工个人基本信息 -->
+							职 &nbsp &nbsp &nbsp &nbsp位: <input type="text" name="cnName" value="Job Title"> &nbsp &nbsp 部 &nbsp &nbsp &nbsp&nbsp门: <input type="text" name="cnName" value="Job Title"> </br>
+							主 &nbsp &nbsp &nbsp &nbsp管: <input type="text" name="cnName" value="Superior"> &nbsp &nbsp 成本中心:&nbsp<input type="text" name="cnName" value="Cost center"> </br>
+							员工编号:&nbsp <input type="text" name="cnName" value="EmployeeID"> &nbsp &nbsp 入职日期: <input type="text" name="cnName" value="OnboardDate"></br>
+							<!--上部 第二段 员工的公司基本信息 -->
+						</div>
+						<!--HRPart End -->
+						</br>
+
+
+						<div id="MgrPart">
+							IT设备: <input type="radio" name="ITEquip" value="Manager Package [Dell E7270, Monitor, Docking, Wifi suit]" checked>Manager Package [Dell E7270, Monitor, Docking, Wifi suit]</br>
+							&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <input type="radio" name="ITEquip" value="Manager Package [Dell E7270, Monitor, Docking, Wifi suit]">Laptop [ Dell Latitude E7270 ]</br>
+							&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <input type="radio" name="ITEquip" value="Manager Package [Dell E7270, Monitor, Docking, Wifi suit]">Desktop Suit [ Dell 3040SF, Monitor, Keyboard, Mouse ]</br>
+							&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <input type="radio" name="ITEquip" value="Manager Package [Dell E7270, Monitor, Docking, Wifi suit]">Desktop (body) [ Dell 3040SF ]</br>
+							<!--鼠标悬停 显示每个套餐月度费用，单选，必填项目-->
+							其他设备:<input type="checkbox" name="cell" value="badge" checked>Badge
+							<input type="checkbox" name="cell" value="cell">Monitor
+							<input type="checkbox" name="cell" value="cell">Cell Phone
+							<input type="checkbox" name="cell" value="cell">VPN Token </br>
+							<!-- 这一节代码未来用于调整前端对齐
+						&nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <input type="checkbox" name="cell" value="cell" checked>Cell Phone
+						<input type="checkbox" name="cell" value="cell" >Monitor </br> -->
+
+							&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<input type="checkbox" name="cell" value="cell">Universal Travel Adapter
+							<input type="checkbox" name="cell" value="cell">Printer </br>
+							&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Others:<input type="text" name="cell" value="Other Equipment">
+							<!--鼠标悬停 显示每个项目月度费用，可多选，非必须项目-->
+							<!--中部 第一段 硬件需求 -->
+							</br>
+							</br>
+							系统账户:<input type="checkbox" name="cnName" value="Superior">Windows
+							<input type="checkbox" name="cnName" value="Superior">ERP
+							<input type="checkbox" name="cnName" value="Superior">Buyer Code
+							<input type="checkbox" name="cnName" value="Superior">VPN
+							<input type="checkbox" name="cnName" value="Superior">CRM</br>
+							&nbsp<input type="text" name="cnName" value="Mail Groups">Mail Groups &nbsp <input type="text" name="cnName" value="ERP Role">ERP Role
+							</br>
+							<!--鼠标悬停 显示每个项目月度费用，可多选，非必须项目-->
+							<!--中部 第二段 系统需求 -->
+						</div>
+						<!--MgrPart End -->
+						</br>
+
+
+						<div id="ITPart">
+							Service Desk Ticket Number: <input type="text" name="SDTN" value=""> </br>
+							Hardware Brief Info: <input type="text" name="SDTN" value="E7270, Cell, Token, UTA, Printer" size="31"> </br>
+							</br>
+							WindowsID:<input type="text" name="cell" value="Details"> Domain: <input type="text" name="cell" value="Corp"> </br>
+							电子邮件: <input type="email" name="email" value="sample@hagemeyercn.com" size="40"> </br>
+							</br>
+							ERP ID: <input type="text" name="email" value="sample@hagemeyercn.com" size="20"> </br>Roles: <input type="checkbox" name="email" value="sample@hagemeyercn.com" size="40"> </br>
+							<input type="checkbox" name="email" value="sample@hagemeyercn.com" size="40"> </br>
+							<input type="checkbox" name="email" value="sample@hagemeyercn.com" size="40"> </br>
+
+
+							<!--下部 第一段 IT反馈 -->
+						</div>
+						</br>
+						</br>
+						<input type="submit" value="Submit">
+					</form>
+
+
+				</section>
+				</br>
+			</div>
+			</br>
+			<footer>Powered by HIT Ethan Liu All Rights Reserved &copy; </footer>
+		</div>
+		</br>
+
+	</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+功能计划： 组织架构图， 部分用户可以直接修改组织架构图。
+修改保存后，汇报对象/主管在系统后台直接更改。但是抬头需要手工填。
+
+员工卡信息添加。
+
+增加功能：可以直接打印工牌，自动排版设计版式。小型（长式、宽式）
+增加功能：午餐统计及报表，统计加班费，计算工资单奖金，公司福利计算
+
+
+
+
+
+
+写在前面的话，
+本程序是出于想优化目前海格曼工业技术公司新员工报道的流程进行的优化工作。
+一共计划4个分页面， HR, 用人部门，IT, OE。 根据分工智能，每个页面分别对应相应的页面。
+根据工作流，进行过程控制。 本程序由Ethan Liu设计并开发，拥有最终解释权。 Enjoy~~
+
+-->
